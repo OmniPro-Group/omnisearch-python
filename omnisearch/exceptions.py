@@ -1,0 +1,2 @@
+class OmniSearchError(Exception):
+    pass
