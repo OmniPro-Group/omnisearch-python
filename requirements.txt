@@ -1,2 +1,4 @@
-pre-commit
-requests
+pre-commit==2.17.0
+requests==2.31.0
+chance==0.110
+portabletext-html==1.1.3

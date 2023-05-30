@@ -1,4 +1,5 @@
 """Omnisearch.ai API Python Client"""
+import json
 from omnisearch import apiclient, exceptions
 
 
@@ -19,7 +20,11 @@ class Client(apiclient.ApiClient):
         :return:
         """
         url = "/hello"
-        return self.request(method="GET", url=url)
+
+        try:
+            return self.request(method="GET", url=url)
+        except exceptions.OmniSearchError:
+            return None
 
     def languages(self):
         """
@@ -28,7 +33,11 @@ class Client(apiclient.ApiClient):
         :return:
         """
         url = "/languages"
-        return self.request(method="GET", url=url)
+
+        try:
+            return self.request(method="GET", url=url)
+        except exceptions.OmniSearchError:
+            return None
 
     def records(self, record_type, page=0, page_size=10):
         """
@@ -48,7 +57,7 @@ class Client(apiclient.ApiClient):
         }
 
         try:
-            self.request(method="GET", url=url, params=params)
+            return self.request(method="GET", url=url, params=params)
         except exceptions.OmniSearchError:
             return None
 
@@ -58,8 +67,11 @@ class Client(apiclient.ApiClient):
 
         :param record_type: The type of the record (used to define the search domain by record type)
         :param name: The name of the record (used only for your reference)
-        :param properties: Properties that are used to filter out the records when searching (JSON encoded dict); NOTE: All properties that you add here are going to be fully indexed. If you want to add additional data to the record that shouldn't be indexed (but should be returned with the record), add it into data.
-        :param data: Data allows you to supply additional data that you want saved and associated with the record. The data itself won't be indexed and you can't search or filter by it, but it will be returned with the record.
+        :param properties: Properties that are used to filter out the records when searching (JSON encoded dict);
+        NOTE: All properties that you add here are going to be fully indexed. If you want to add additional data to
+        the record that shouldn't be indexed (but should be returned with the record), add it into data.
+        :param data: Data allows you to supply additional data that you want saved and associated with the record.
+        The data itself won't be indexed and you can't search or filter by it, but it will be returned with the record.
         :param hidden: Set whether or not the record should be found when executing search queries
         :return:
         """
@@ -91,21 +103,45 @@ class Client(apiclient.ApiClient):
         except exceptions.OmniSearchError:
             return None
 
-    def update_record(self):
+    def update_record(self, record_id, name: str, properties: dict, data: dict, hidden: bool = False):
         """
         PATCH /records/{uid}
 
+        :param name: The name of the record (used only for your reference)
+        :param properties: Properties that are used to filter out the records when searching (JSON encoded dict);
+        NOTE: All properties that you add here are going to be fully indexed. If you want to add additional data to
+        the record that shouldn't be indexed (but should be returned with the record), add it into data.
+        :param data: Data allows you to supply additional data that you want saved and associated with the record.
+        The data itself won't be indexed and you can't search or filter by it, but it will be returned with the record.
+        :param hidden: Set whether or not the record should be found when executing search queries
         :return:
         """
-        pass
+        url = f"/records/{record_id}"
 
-    def delete_record(self):
+        data = {
+            "name": name,
+            "properties": properties,
+            "data": data,
+            "hidden": hidden,
+        }
+
+        try:
+            return self.request(method="PATCH", url=url, data=data)
+        except exceptions.OmniSearchError:
+            return None
+
+    def delete_record(self, record_id):
         """
         DELETE /records/{uid}
 
         :return:
         """
-        pass
+        url = f"/records/{record_id}"
+
+        try:
+            return self.request(method="DELETE", url=url)
+        except exceptions.OmniSearchError:
+            return None
 
     def record_objects(self, record_id):
         """
@@ -120,7 +156,7 @@ class Client(apiclient.ApiClient):
         except exceptions.OmniSearchError:
             return None
 
-    def create_objects(self, record_id, objects):
+    def create_record_objects(self, record_id, objects):
         """
         POST /records/{uid}/objects
 
@@ -145,45 +181,60 @@ class Client(apiclient.ApiClient):
         except exceptions.OmniSearchError:
             return None
 
-    def delete_object(self):
+    def delete_record_objects(self, record_id):
         """
         DELETE /records/{uid}/objects
 
         :return:
         """
-        pass
+        url = f"/records/{record_id}/objects"
 
-    def record_objects_type(self):
-        """
-        GET /records/{uid}/objects/{type}
-
-        :return:
-        """
-        pass
-
-    def update_record_objects_type(self):
-        """
-        PUT /records/{uid}/objects/{type}
-
-        :return:
-        """
-        pass
-
-    def delete_record_objects_type(self, record_id, record_type):
-        """
-        DELETE /records/{uid}/objects/{type}
-
-        :param record_id:
-        :param record_type:
-        :return:
-        """
-        url = f"/records/{record_id}/objects/{record_type}"
         try:
             return self.request(method="DELETE", url=url)
         except exceptions.OmniSearchError:
             return None
 
-    def record_content(self, record_id, object_type):
+    def record_objects_type(self, record_id, object_type):
+        """
+        GET /records/{uid}/objects/{type}
+
+        :return:
+        """
+        url = f"/records/{record_id}/objects/{object_type}"
+
+        try:
+            return self.request(method="GET", url=url)
+        except exceptions.OmniSearchError:
+            return None
+
+    def update_record_objects_type(self, record_id, object_type, data):
+        """
+        PUT /records/{uid}/objects/{type}
+
+        :return:
+        """
+        url = f"/records/{record_id}/objects/{object_type}"
+
+        try:
+            return self.request(method="PUT", url=url, data=data)
+        except exceptions.OmniSearchError:
+            return None
+
+    def delete_record_objects_type(self, record_id, object_type):
+        """
+        DELETE /records/{uid}/objects/{type}
+
+        :param record_id:
+        :param object_type:
+        :return:
+        """
+        url = f"/records/{record_id}/objects/{object_type}"
+        try:
+            return self.request(method="DELETE", url=url)
+        except exceptions.OmniSearchError:
+            return None
+
+    def record_type_content(self, record_id, object_type):
         """
         GET /records/{uid}/objects/{type}/content
 
@@ -197,7 +248,7 @@ class Client(apiclient.ApiClient):
         except exceptions.OmniSearchError:
             return None
 
-    def record_transcript(self, record_id, object_type):
+    def record_type_transcript(self, record_id, object_type):
         """
         GET /records/{uid}/objects/{type}/transcript
 
@@ -243,8 +294,8 @@ class Client(apiclient.ApiClient):
         aggregated properties will have their inner values flattened out; e.g. a property that has a list
         value ([1, 2, 3]) would return the following schema [[1, 1], [2, 1], [3, 1]] instead of [[[1, 2, 3], 1]];
         JSON-encoded list of strings
-        :param sort_by_count: if set to true the schema will be sorted by counts descending; otherwise it will be sorted
-        by value ascending
+        :param sort_by_count: if set to true the schema will be sorted by counts descending; otherwise it will be
+        sorted by value ascending
         :return:
         """
         if aggregate_properties is None:
@@ -253,10 +304,16 @@ class Client(apiclient.ApiClient):
             excluded_properties = []
         if filters is None:
             filters = []
+        elif type(filters) == list:
+            filters = json.dumps(filters)
         if object_types is None:
             object_types = []
+        elif type(object_types) == list:
+            object_types = json.dumps(object_types)
         if record_ids is None:
             record_ids = []
+        elif type(record_ids) == list:
+            record_ids = json.dumps(record_ids)
         url = f"/schema/{record_type}"
 
         params = {

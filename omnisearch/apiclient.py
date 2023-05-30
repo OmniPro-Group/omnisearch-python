@@ -25,6 +25,10 @@ class ApiClient:
         self.api_host = api_host
         self.api_version = api_version
         self.api_key = api_key
+        self.headers = {
+            "accept": "application/json",
+            "Content-Type": "application/json"
+        }
 
         for k, v in kwargs.items():
             setattr(self, k, v)
@@ -42,27 +46,27 @@ class ApiClient:
             value = value[:-1]
         self._api_host = value
 
-    @staticmethod
-    def headers(self):
-        return {
-            "accept": "application/json",
-            "Content-Type": "application/json"
-        }
-
     def request(self, method, url, data=None, params=None):
         # Add the api key to params
+        if params is None:
+            params = {}
+
         params["key"] = self.api_key
 
         if type(data) == dict:
             data = json.dumps(data)
 
         full_url = merge_url(f"{self.api_host}/{self.api_version}{url}", params)
+
         self.logger.info(full_url)
 
         result = self.session.request(
             method=method, url=full_url, data=data, headers=self.headers
         )
-        if result.status_code == 200:
+
+        if result.status_code in [200, 201]:
             return json.loads(result.text)
+        else:
+            self.logger.error(f"{result.status_code} {result.text}")
 
         raise exceptions.OmniSearchError
