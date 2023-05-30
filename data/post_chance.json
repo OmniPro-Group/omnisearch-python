@@ -1,0 +1,39 @@
+{
+    "title": {"type": "sentence", "options": {"language": "en"}},
+    "slug": {"type": "filepath", "options": {"depth":  1, "extentions": ["html"]}},
+    "image": {"type": "filepath", "options": {"depth":  2, "extentions": ["png", "jpg"]}},
+    "fullname": {
+        "type": "pick_one",
+        "options": {
+            "values": ["John Smith", "Elaine Jones", "Jim Fitzgerald", "Sarah Hernandez", "Rebecca Underwood"]
+        }
+    },
+    "publish": {"type": "date", "options":  {"year": 2023}},
+    "update": {"type": "date", "options":  {"year": 2023}},
+    "categories": {
+        "type": "pick_many",
+        "options": {
+            "values": ["Tax", "Audit", "Company Law", "Financial Reporting", "GDPR & Cyber"],
+            "minimum": 0,
+            "maximum": 4
+        }
+    },
+    "h1": {"type": "paragraph", "options":  {"language":  "en"}},
+    "h3": {"type": "paragraph", "options":  {"language":  "en"}},
+    "p1": {"type": "paragraph", "options":  {"language":  "en"}},
+    "youtube_url": {
+        "type": "pick_one",
+        "options": {
+            "values": [
+                "https://www.youtube.com/watch?v=yYRyVUsYJRY",
+                "https://www.youtube.com/watch?v=Rf1RRCuC08k",
+                "https://www.youtube.com/watch?v=Nzu0h8GFnME",
+                "https://www.youtube.com/watch?v=3TJiY4IKv6w",
+                "https://www.youtube.com/watch?v=QwAdWB1PMMY",
+                "https://www.youtube.com/watch?v=N0xf6tyM4IU",
+                "https://www.youtube.com/watch?v=gWVRr-uLlEA",
+                "https://www.youtube.com/watch?v=ywY_Zxl9vx0"
+            ]
+        }
+    }
+}

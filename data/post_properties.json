@@ -1,0 +1,8 @@
+{
+    "title": "$title",
+    "slug": "$slug",
+    "author": "$fullname",
+    "categories": $categories,
+    "publishedDate": "$publish",
+    "updatedDate": "$update"
+}

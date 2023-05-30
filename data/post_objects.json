@@ -1,0 +1,14 @@
+{
+    "content": {
+        "url": "",
+        "content": "[\n  {\n    \"_type\": \"block\",\n    \"style\": \"h1\",\n    \"_key\": \"2f73c3293f81\",\n    \"markDefs\": [],\n    \"children\": [\n      {\n        \"text\": \"$h1\",\n        \"_key\": \"37344104a9ba\",\n        \"_type\": \"span\",\n        \"marks\": []\n      }\n    ]\n  },\n  {\n    \"_type\": \"youtube\",\n    \"_key\": \"bf39493890ad\",\n    \"url\": \"$youtube_url\"\n  },\n  {\n    \"children\": [\n      {\n        \"_key\": \"8f7c88f338f2\",\n        \"_type\": \"span\",\n        \"marks\": [],\n        \"text\": \"$h3\"\n      }\n    ],\n    \"_type\": \"block\",\n    \"style\": \"h3\",\n    \"_key\": \"0eb1170dd3fa\",\n    \"markDefs\": []\n  },\n  {\n    \"markDefs\": [],\n    \"children\": [\n      {\n        \"text\": \"\",\n        \"_key\": \"94e70feb8149\",\n        \"_type\": \"span\",\n        \"marks\": []\n      }\n    ],\n    \"_type\": \"block\",\n    \"style\": \"normal\",\n    \"_key\": \"757180f98735\"\n  },\n  {\n    \"style\": \"normal\",\n    \"_key\": \"b85a5e187630\",\n    \"markDefs\": [],\n    \"children\": [\n      {\n        \"_type\": \"span\",\n        \"marks\": [\n          \"em\"\n        ],\n        \"text\": \"$p1\",\n        \"_key\": \"3eec2276433a\"\n      }\n    ],\n    \"_type\": \"block\"\n  }\n]",
+        "type": "portable_text",
+        "language": "en"
+    },
+    "video": {
+        "url": "$youtube_url",
+        "content": "",
+        "type": "url",
+        "language": "en"
+    }
+}
